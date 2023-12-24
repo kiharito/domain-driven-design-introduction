@@ -14,9 +14,15 @@ impl User {
             name,
         }
     }
+    pub fn id(&self) -> UserId {
+        self.id.clone()
+    }
+    pub fn name(&self) -> UserName {
+        self.name.clone()
+    }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct UserId {
     value: String,
 }
@@ -32,7 +38,7 @@ impl UserId {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct UserName {
     value: String,
 }
