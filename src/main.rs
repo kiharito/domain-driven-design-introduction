@@ -1,7 +1,9 @@
-use crate::user::{User, UserName};
+use crate::program::Program;
 
+mod program;
 mod user;
+mod user_service;
 
 fn main() {
-    println!("Hello, {:?}!", User::new(UserName::new("taro").unwrap()));
+    Program::new().create_user("Taro").unwrap();
 }
