@@ -1,5 +1,6 @@
 use crate::repository::IUserRepository;
 use crate::user::User;
+use anyhow::Result;
 
 pub struct UserService<R: IUserRepository> {
     user_repository: R,
@@ -11,8 +12,8 @@ impl<R: IUserRepository> UserService<R> {
             user_repository: user_repository.clone(),
         }
     }
-    pub fn exists(&self, user: &User) -> bool {
-        let found = self.user_repository.find(user.name());
-        found.is_some()
+    pub async fn exists(&self, user: &User) -> Result<bool> {
+        let found = self.user_repository.find(user.name()).await?;
+        Ok(found.is_some())
     }
 }
