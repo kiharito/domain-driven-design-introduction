@@ -1,11 +1,11 @@
-use crate::repository::UserRepository;
+use crate::repository::IUserRepository;
 use crate::user::User;
 
-pub struct UserService<R: UserRepository> {
+pub struct UserService<R: IUserRepository> {
     user_repository: R,
 }
 
-impl<R: UserRepository> UserService<R> {
+impl<R: IUserRepository> UserService<R> {
     pub fn new(user_repository: &R) -> Self {
         Self {
             user_repository: user_repository.clone(),

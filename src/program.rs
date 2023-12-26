@@ -1,13 +1,13 @@
-use crate::repository::UserRepository;
+use crate::repository::IUserRepository;
 use crate::user::{User, UserName};
 use crate::user_service::UserService;
 use anyhow::{bail, Result};
 
-pub struct Program<R: UserRepository> {
+pub struct Program<R: IUserRepository> {
     user_repository: R,
 }
 
-impl<R: UserRepository> Program<R> {
+impl<R: IUserRepository> Program<R> {
     pub fn new(user_repository: R) -> Self {
         Self { user_repository }
     }
