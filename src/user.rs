@@ -8,7 +8,10 @@ pub struct User {
 }
 
 impl User {
-    pub fn new(name: UserName) -> Self {
+    pub fn new(id: UserId, name: UserName) -> Self {
+        Self { id, name }
+    }
+    pub fn build(name: UserName) -> Self {
         Self {
             id: UserId::new(&Uuid::new_v4().to_string()),
             name,
@@ -38,12 +41,6 @@ impl UserId {
     }
 }
 
-impl From<String> for UserId {
-    fn from(value: String) -> Self {
-        Self { value }
-    }
-}
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct UserName {
     value: String,
@@ -58,14 +55,6 @@ impl UserName {
     }
     pub fn value(&self) -> String {
         self.value.clone()
-    }
-}
-
-impl From<Option<String>> for UserName {
-    fn from(value: Option<String>) -> Self {
-        Self {
-            value: value.unwrap(),
-        }
     }
 }
 

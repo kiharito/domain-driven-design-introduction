@@ -1,4 +1,4 @@
-use crate::user::{User, UserName};
+use crate::user::{User, UserId, UserName};
 use anyhow::Result;
 use async_trait::async_trait;
 use sqlx::mysql::MySqlPool;
@@ -39,13 +39,21 @@ impl IUserRepository for UserRepository {
     }
 
     async fn find(&self, name: UserName) -> Result<Option<User>> {
-        let res = sqlx::query_as!(
-            User,
+        let res = sqlx::query!(
             "SELECT id, name FROM users WHERE users.name = ?;",
             name.value()
         )
         .fetch_optional(&self.pool)
         .await?;
-        Ok(res)
+        match res {
+            Some(record) => {
+                let user = User::new(
+                    UserId::new(&record.id),
+                    UserName::new(&record.name.unwrap())?,
+                );
+                Ok(Some(user))
+            }
+            None => Ok(None),
+        }
     }
 }
