@@ -3,8 +3,8 @@ use uuid::Uuid;
 
 #[derive(Debug)]
 pub struct User {
-    id: UserId,
-    name: UserName,
+    pub id: UserId,
+    pub name: UserName,
 }
 
 impl User {
@@ -38,6 +38,12 @@ impl UserId {
     }
 }
 
+impl From<String> for UserId {
+    fn from(value: String) -> Self {
+        Self { value }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct UserName {
     value: String,
@@ -52,6 +58,14 @@ impl UserName {
     }
     pub fn value(&self) -> String {
         self.value.clone()
+    }
+}
+
+impl From<Option<String>> for UserName {
+    fn from(value: Option<String>) -> Self {
+        Self {
+            value: value.unwrap(),
+        }
     }
 }
 

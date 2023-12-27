@@ -39,18 +39,13 @@ impl IUserRepository for UserRepository {
     }
 
     async fn find(&self, name: UserName) -> Result<Option<User>> {
-        let res = sqlx::query!(
+        let res = sqlx::query_as!(
+            User,
             "SELECT id, name FROM users WHERE users.name = ?;",
             name.value()
         )
         .fetch_optional(&self.pool)
         .await?;
-        if res.is_none() {
-            return Ok(None);
-        }
-
-        todo!("User生成");
-        println!("{:?}", res.unwrap().id);
-        Ok(None)
+        Ok(res)
     }
 }
