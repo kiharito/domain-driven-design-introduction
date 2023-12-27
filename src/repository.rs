@@ -15,13 +15,13 @@ pub struct UserRepository {
 }
 
 impl UserRepository {
-    pub async fn new() -> Result<Self> {
+    pub async fn new() -> Self {
         dotenvy::dotenv().expect("failed to read .env file");
         let url = std::env::var("DATABASE_URL").expect("env DATABASE_URL must be set");
         let pool = MySqlPool::connect(&url)
             .await
             .expect("cannot connect to the database");
-        Ok(Self { pool })
+        Self { pool }
     }
 }
 

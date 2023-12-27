@@ -9,7 +9,7 @@ mod user_service;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    Program::new(UserRepository::new().await?)
+    Program::new(UserRepository::new().await)
         .create_user("test2")
         .await?;
     Ok(())
