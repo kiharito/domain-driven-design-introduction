@@ -12,7 +12,7 @@ impl<R: IUserRepository> Program<R> {
         Self { user_repository }
     }
     pub async fn create_user(&self, user_name: &str) -> Result<()> {
-        let user = User::new(UserName::new(user_name).unwrap());
+        let user = User::new(UserName::new(user_name)?);
         let user_service = UserService::new(&self.user_repository);
         if user_service.exists(&user).await? {
             bail!(format!("{user_name}はすでに存在しています"));
