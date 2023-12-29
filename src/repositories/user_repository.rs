@@ -1,13 +1,9 @@
-use crate::user::{User, UserId, UserName};
-use anyhow::Result;
+use crate::domains::user::User;
+use crate::domains::user_id::UserId;
+use crate::domains::user_name::UserName;
+use crate::repositories::user_repository_interface::IUserRepository;
 use async_trait::async_trait;
-use sqlx::mysql::MySqlPool;
-
-#[async_trait]
-pub trait IUserRepository: Clone {
-    async fn save(&self, user: User) -> Result<()>;
-    async fn find(&self, name: UserName) -> Result<Option<User>>;
-}
+use sqlx::MySqlPool;
 
 #[derive(Clone, Debug)]
 pub struct UserRepository {
@@ -27,7 +23,7 @@ impl UserRepository {
 
 #[async_trait]
 impl IUserRepository for UserRepository {
-    async fn save(&self, user: User) -> Result<()> {
+    async fn save(&self, user: User) -> anyhow::Result<()> {
         sqlx::query!(
             "REPLACE INTO users VALUES (?, ?);",
             user.id().value(),
@@ -38,7 +34,7 @@ impl IUserRepository for UserRepository {
         Ok(())
     }
 
-    async fn find(&self, name: UserName) -> Result<Option<User>> {
+    async fn find(&self, name: UserName) -> anyhow::Result<Option<User>> {
         let res = sqlx::query!(
             "SELECT id, name FROM users WHERE users.name = ?;",
             name.value()

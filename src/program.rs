@@ -1,6 +1,7 @@
-use crate::repository::IUserRepository;
-use crate::user::{User, UserName};
-use crate::user_service::UserService;
+use crate::domains::user::User;
+use crate::domains::user_name::UserName;
+use crate::domains::user_service::UserService;
+use crate::repositories::user_repository_interface::IUserRepository;
 use anyhow::{bail, Result};
 
 pub struct Program<R: IUserRepository> {
