@@ -1,7 +1,7 @@
 use crate::domains::user_id::UserId;
 use crate::domains::user_name::UserName;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct User {
     pub id: UserId,
     pub name: UserName,

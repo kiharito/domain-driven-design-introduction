@@ -23,7 +23,7 @@ impl UserRepository {
 
 #[async_trait]
 impl IUserRepository for UserRepository {
-    async fn save(&self, user: User) -> anyhow::Result<()> {
+    async fn save(&mut self, user: User) -> anyhow::Result<()> {
         sqlx::query!(
             "REPLACE INTO users VALUES (?, ?);",
             user.id().value(),

@@ -12,7 +12,7 @@ impl<R: IUserRepository> Program<R> {
     pub fn new(user_repository: R) -> Self {
         Self { user_repository }
     }
-    pub async fn create_user(&self, user_name: &str) -> Result<()> {
+    pub async fn create_user(&mut self, user_name: &str) -> Result<()> {
         let user = User::build(UserName::new(user_name)?);
         let user_service = UserService::new(&self.user_repository);
         if user_service.exists(&user).await? {
